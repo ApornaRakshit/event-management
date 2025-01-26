@@ -11,4 +11,13 @@ def user_dashboard(request):
     return render(request, "dashboard/user-dashboard.html")
 
 def test(request):
-    return render(request, 'test.html')
+    names=["Mahmud", "Aps","Mars","Bushri"]
+    count=0
+    for name in names:
+        count += 1
+    context = {
+        "name" : names,
+        "age" : 23,
+        "count" : count
+    }
+    return render(request, 'test.html',context)
