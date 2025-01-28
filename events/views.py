@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from events.forms import EventForm,EventModelForm
-from events.models import Employee,Event
+# from events.models import Event
+# from events.forms import EventForm,EventModelForm
+# from events.models import Employee,Event
 
 # Create your views here.
 
@@ -12,31 +13,31 @@ def manager_dashboard(request):
 def user_dashboard(request):
     return render(request, "dashboard/user-dashboard.html")
 
-def test(request):
-    names=["Mahmud", "Aps","Mars","Bushri"]
-    count=0
-    for name in names:
-        count += 1
-    context = {
-        "name" : names,
-        "age" : 23,
-        "count" : count
-    }
-    return render(request, 'test.html',context)
+# def test(request):
+#     names=["Mahmud", "Aps","Mars","Bushri"]
+#     count=0
+#     for name in names:
+#         count += 1
+#     context = {
+#         "name" : names,
+#         "age" : 23,
+#         "count" : count
+#     }
+#     return render(request, 'test.html',context)
 
-def create_event(request):
-    # employees = Employee.objects.all()
-    form = EventModelForm()
+# def create_event(request):
+#     # employees = Employee.objects.all()
+#     form = EventModelForm()
 
-    if request.method == "POST":
-        form = EventModelForm(request.POST)
-        if form.is_valid():
-            form.save()
+#     if request.method == "POST":
+#         form = EventModelForm(request.POST)
+#         if form.is_valid():
+#             form.save()
 
-            return render(request, 'event_form.html',{"form":form, "message": "Event added successfully"})
+#             return render(request, 'event_form.html',{"form":form, "message": "Event added successfully"})
 
-            """ For Model form data """
-            ''' For django data'''
+            # """ For Model form data """
+            # ''' For django data'''
             # data = form.cleaned_data
             # title = data.get('title')
             # description = data.get('description')
@@ -51,5 +52,5 @@ def create_event(request):
 
             # return HttpResponse("Event Added successfully")
 
-    context = {"form": form}
-    return render(request,"event_form.html", context)
+    # context = {"form": form}
+    # return render(request,"event_form.html", context)
