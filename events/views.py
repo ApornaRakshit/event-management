@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from events.forms import EventForm
+from events.models import Participant
+# from .models import Event
 from django.http import HttpResponse
 # from events.models import Event
 # from events.forms import EventForm,EventModelForm
@@ -12,6 +15,15 @@ def manager_dashboard(request):
 
 def user_dashboard(request):
     return render(request, "dashboard/user-dashboard.html")
+
+
+
+def create_event(request):
+    participants = Participant.objects.all()
+    form = EventForm(participants=participants)
+    context = {"form": form}
+    return render(request,"event_form.html", context)
+
 
 # def test(request):
 #     names=["Mahmud", "Aps","Mars","Bushri"]

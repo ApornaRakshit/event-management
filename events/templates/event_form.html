@@ -16,10 +16,28 @@
         </div>
         <form method="POST">
             {% comment %} <input type='text' class="border-2 border-gray-500 w-full rounded-lg shadow-sm focus:border-rose-400" placeholder="Enter event title"> {% endcomment %}
-            {% csrf_token %}
+             
+            {% comment %} {% csrf_token %}
             {{ form.as_p }}
             <button type="submit" class="bg-red-500 px-3 py-2 mt-2 rounded-xl text-white">Submit</button>
         </form>
     </div>
 </body>
-</html> {% endcomment %}
+</html> {% endcomment %} 
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

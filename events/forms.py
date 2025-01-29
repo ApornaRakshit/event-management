@@ -116,3 +116,60 @@
 #         def __init__(self, *arg, **kwarg):
 #             super().__init__(*arg, **kwarg)
 #             self.apply_styled_widgets()
+
+
+from django import forms
+
+class EventForm(forms.Form):
+  title = forms.CharField(max_length=250)
+  description= forms.CharField(widget=forms.Textarea)
+  date = forms.DateField(widget=forms.SelectDateWidget, label="Date")  
+  category = forms.MultipleChoiceField(
+  widget=forms.CheckboxSelectMultiple, choices=[])
+  
+  def __init__(self, *args, **kwargs):
+    participants=kwargs.pop("participants",[])
+    super().__init__(*args, **kwargs)
+    self.fields["category"].choices=[
+      (part.id,part.name) for part in participants]
+
+
+
+
+
+
+# # Event Form
+# class EventForm(forms.ModelForm):
+#     class Meta:
+#         model = Event
+#         fields = '__all__'
+#         widgets = {
+#             'date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+#             'time': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
+#             'description': forms.Textarea(attrs={'class': 'form-control'}),
+#             'location': forms.TextInput(attrs={'class': 'form-control'}),
+#             'category': forms.Select(attrs={'class': 'form-control'}),
+#         }
+
+
+
+# Participant Form
+# class ParticipantForm(forms.ModelForm):
+    # class Meta:
+    #     model = Participant
+    #     fields = '__all__'
+    #     widgets = {
+    #         'name': forms.TextInput(attrs={'class': 'form-control'}),
+    #         'email': forms.EmailInput(attrs={'class': 'form-control'}),
+    #         'events': forms.SelectMultiple(attrs={'class': 'form-control'}),
+    #     }
+
+# Category Form
+# class CategoryForm(forms.ModelForm):
+#     class Meta:
+#         model = Category
+#         fields = '__all__'
+#         widgets = {
+#             'name': forms.TextInput(attrs={'class': 'form-control'}),
+#             'description': forms.Textarea(attrs={'class': 'form-control'}),
+#         }
