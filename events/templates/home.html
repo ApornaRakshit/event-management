@@ -4,51 +4,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Event Management</title>
+   
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
 </head>
 <body>
-    <div>
-        <p><strong>Total Participants:</strong> {{ all_participants_count }}</p>
-        <p><strong>Total Events:</strong> {{ total_events }}</p>
-        <p><strong>Upcoming Events:</strong> {{ upcoming_events_count }}</p>
-        <p><strong>Past Events:</strong> {{ past_events_count }}</p>
-    </div>
-    <div>
-        <ul><p>Todays Event</p>
-            {% for event in todays_event %}
-            <li>
-                {{event}}
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
-    <div>
-        <ul><p>Upcoming Events</p>
-            {% for event in upcoming_events %}
-            <li>
-                {{event}}
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
-    <div>
-        <ul><p>Past Events</p>
-            {% for event in past_events %}
-            <li>
-                {{event}}
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
-    <div>
-        <ul><p>Total Participants</p>
-            {% for participant in all_participants %}
-            <li>
-                {{participant}}
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
-    
+    <header class="bg-white shadow-md">
+        <nav class="container mx-auto px-6 py-3">
+          <div class="flex justify-between items-center">
+            <div class="text-xl font-bold text-gray-800">Evento</div>
+            <div class="md:flex space-x-4">
+              <a href="#" class="text-gray-600 hover:text-gray-800">Home</a>
+              <a href="{% url 'organizer-dashboard' %}" class="text-gray-600 hover:text-gray-800">Dashboard</a>
+              <a href="events/" class="text-gray-600 hover:text-gray-800">Events</a>
+              <a href="{% url 'create-event' %}" class="text-gray-600 hover:text-gray-800">Create Event</a>
+              <a href="#" class="text-gray-600 hover:text-gray-800">About</a>
+            </div>
+            
+            <div class="flex gap-1">
+              
+            </div>
+          </div>
+          <div id="" class="md:hidden hidden mt-4">
+            <a href="#" class="block py-2 text-gray-600 hover:text-gray-800"
+              >Home</a
+            >
+            <a href="#" class="block py-2 text-gray-600 hover:text-gray-800"
+              >Dashboard</a
+            >
+            <a href="#" class="block py-2 text-gray-600 hover:text-gray-800"
+              ></a
+            >
+            <a href="#" class="block py-2 text-gray-600 hover:text-gray-800"
+              >Events</a
+            >
+            <a href="#" class="block py-2 text-gray-600 hover:text-gray-800"
+              >About</a
+            >
+            <a href="#" class="block py-2 text-gray-600 hover:text-gray-800"
+              >Create Event</a
+            >
+          </div>
+        </nav>
+      </header>
+      <main>
+        <div>
+          <div>
+            <ul><p>All Events</p>
+                {% for event in events %}
+                <li>
+                    <p>Event Title: {{event.title}}</p>
+                    <p>Category: {{event.category.name}}</p>
+                    <p>Participants: {{event.participant_count}}</p>
+                    
+                    {% for p in event.participants.all %}
+                        <p>Participants: {{p.name}}</p>
+                    {% endfor %}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        </div>
+      </main>
 </body>
 </html>
