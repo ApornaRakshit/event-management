@@ -4,5 +4,6 @@ from debug_toolbar.toolbar import debug_toolbar_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('events.urls')),
     path("events/", include("events.urls"))
 ] + debug_toolbar_urls()

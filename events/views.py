@@ -9,14 +9,14 @@ from django.contrib import messages
 
 # Create your views here.
 
-def home(request):
-    # events = Event.objects.all()
-    ps = Event.objects.prefetch_related('participants').all()
-    events = Event.objects.annotate(participant_count=Count('participants'))
-    return render(request, "home.html", {
-        "events": events,
-        'ps' : ps
-        })
+# def home(request):
+#     # events = Event.objects.all()
+#     ps = Event.objects.prefetch_related('participants').all()
+#     events = Event.objects.annotate(participant_count=Count('participants'))
+#     return render(request, "home.html", {
+#         "events": events,
+#         'ps' : ps
+#         })
 
 
 # def show_events(request):
@@ -24,6 +24,39 @@ def home(request):
  # participants = Participant.objects.all()
     # categories = Category.objects.all()
     # form = EventModelForm(participants = participants, categories = categories)
+
+
+# **************************************************
+
+
+def events_by_category(request):
+    c_id = request.GET.get('category')
+    print(c_id)
+    all_participants = Participant.objects.all()
+    all_participants_count = all_participants.count()
+    
+    events = Event.objects.select_related('category').prefetch_related('participants').annotate(participant_count=Count('participants'))
+    if c_id:
+        events = events.filter(category_id=c_id)
+    
+    # counts = Event.objects.aggregate(
+    #     total_events = Count('id'),
+    #     upcoming_events_count = Count('id', filter= Q(date__gte=today)),
+    #     past_events_count = Count('id', filter= Q(date__lt=today))
+    # )
+    context = {
+        'events': events,
+        # 'counts': counts,
+        "all_participants": all_participants,
+        "all_participants_count": all_participants_count,
+        }
+    return render(request, "home.html", context)
+
+
+
+# ****************************************************
+
+
 
 def create_event(request):
    
