@@ -175,14 +175,14 @@
              
           {% comment %} Dynamic Events {% endcomment %}
           {% for event in events %}
-          <div class="flex justify-between items-center shadow-lg bg-amber-100 p-8 my-4 mx-96">
+          <div class="flex justify-between items-center shadow-lg bg-red-100 p-8 my-4 mx-96">
             <div>
-              <h2><span class="text-amber-800 font-medium">Event Title:</span> {{event.title}}</h2>
+              <h2><span class="text-amber-800 font-medium">Event Name:</span> {{event.name}}</h2>
               <p><span class="text-amber-800 font-medium">Description:</span> {{event.description}}</p>
               <p><span class="text-amber-800 font-medium">Participants:</span> {{event.participant_count}}</p>
             </div>
             <div>
-              <a class="bg-yellow-600 rounded p-6 shadow-sm" href="">Ticket and details</a>
+              <a class="bg-red-500 text-white text-bold rounded p-5 shadow-sm" href="">Details</a>
             </div>
           </div>
           {% endfor %}
