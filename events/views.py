@@ -1,4 +1,3 @@
-
 from django.shortcuts import render, redirect
 from django.db.models import Q, Count 
 from django.utils.timezone import now, localdate
@@ -7,56 +6,32 @@ from events.forms import EventModelForm
 from events.models import Event, Participant, Category
 from django.contrib import messages
 
-# Create your views here.
-
-# def home(request):
-#     # events = Event.objects.all()
-#     ps = Event.objects.prefetch_related('participants').all()
-#     events = Event.objects.annotate(participant_count=Count('participants'))
-#     return render(request, "home.html", {
-#         "events": events,
-#         'ps' : ps
-#         })
-
-
-# def show_events(request):
-#     return HttpResponse("Welcome to the event management system")
- # participants = Participant.objects.all()
-    # categories = Category.objects.all()
-    # form = EventModelForm(participants = participants, categories = categories)
-
-
-# **************************************************
-
-
 def events_by_category(request):
     c_id = request.GET.get('category')
-    print(c_id)
-    all_participants = Participant.objects.all()
-    all_participants_count = all_participants.count()
-    
+    start_date = request.GET.get("start_date")
+    end_date = request.GET.get("end_date")
+
     events = Event.objects.select_related('category').prefetch_related('participants').annotate(participant_count=Count('participants'))
     if c_id:
         events = events.filter(category_id=c_id)
     
-    # counts = Event.objects.aggregate(
-    #     total_events = Count('id'),
-    #     upcoming_events_count = Count('id', filter= Q(date__gte=today)),
-    #     past_events_count = Count('id', filter= Q(date__lt=today))
-    # )
+    if start_date and end_date:
+        events = events.filter(date__range=[start_date, end_date])
+
     context = {
-        'events': events,
-        # 'counts': counts,
-        "all_participants": all_participants,
-        "all_participants_count": all_participants_count,
+        'events': events
         }
+
     return render(request, "home.html", context)
 
 
+def event_detail(request, id):
 
-# ****************************************************
-
-
+    event = Event.objects.filter(id=id).select_related('category').prefetch_related('participants').annotate(participant_count=Count('participants'))
+    
+    context = {'event': event.first()}
+    return render(request, "event_detail.html", context)
+    
 
 def create_event(request):
    
@@ -105,12 +80,9 @@ def delete_event(request, id):
 
 
 
-
-
-
-
 def organizer_dashboard(request):
     type = request.GET.get('type','all')
+    print(type)
 
     today = now().date()
     todays_event = Event.objects.filter(date=today)
@@ -126,6 +98,8 @@ def organizer_dashboard(request):
         events = base_query.filter(date__gte=today)
     elif type == 'past events':
         events = base_query.filter(date__lt=today)
+    elif type == 'total events':
+        events = base_query.all()    
     elif type == 'all_participants':
         events = all_participants
 
@@ -146,32 +120,3 @@ def organizer_dashboard(request):
         }
 
     return render(request, "organizer-dashboard.html", context)
-
-
-# def view_events(request):
-#     today = now().date()
-#     total_events = Event.objects.count()
-#     todays_event = Event.objects.filter(date=today)
-
-#     upcoming_events = Event.objects.filter(date__gte=today)
-#     upcoming_events_count = upcoming_events.count()
-
-#     past_events = Event.objects.filter(date__lt=today)
-#     past_events_count = past_events.count()
-
-#     all_participants = Participant.objects.all()
-#     all_participants_count = all_participants.count()
-
-#     context = {
-#         "todays_event": todays_event,
-#         'total_events': total_events,
-
-#         "upcoming_events": upcoming_events,
-#         "upcoming_events_count": upcoming_events_count,
-#         "past_events": past_events,
-#         "past_events_count": past_events_count,
-#         "all_participants": all_participants,
-#         "all_participants_count": all_participants_count,
-#         }
-
-#     return render(request, "organizer-dashboard.html", context) 
