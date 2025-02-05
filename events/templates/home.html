@@ -14,7 +14,7 @@
   {% include "navbar.html" %}
       <main>
         {% comment %} Banner {% endcomment %}
-        <div class="h-96 w-full text-center font-semibold bg-slate-300 id="banner">
+        <div class="h-96 w-full text-center font-semibold bg-slate-300 ">
           <div class="text-5xl font-semibold text-black pt-20">Digital Thinkers <br> Conference</div>
           <h5 class="text-xl py-7 text-sky-900">Workshop || Seminar || Conference || <br> Hackathon || Training</h5>
           
@@ -41,7 +41,7 @@
         {% comment %} Event by category {% endcomment %}
         <div class='bg-indigo-100 px-3 pb-8'>
           <h1 class="text-3xl font-semibold py-6 text-center text-sky-900">Event by Category</h1>
-          <div class="grid grid-cols-4 gap-6 mb-4">
+          <div class="grid grid-cols-3 gap-6 mb-4">
             
             {% comment %} WORKSHOP {% endcomment %}
             <a href="{% url 'events-by-category' %}?category=1"

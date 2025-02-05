@@ -1,5 +1,3 @@
-
-
 from django.shortcuts import render, redirect
 from django.db.models import Q, Count 
 from django.utils.timezone import now, localdate
@@ -7,8 +5,6 @@ from django.http import HttpResponse
 from events.forms import EventModelForm
 from events.models import Event, Participant, Category
 from django.contrib import messages
-
-
 
 def events_by_category(request):
     c_id = request.GET.get('category')
@@ -26,8 +22,6 @@ def events_by_category(request):
         'events': events
         }
     return render(request, "home.html", context)
-
-
 
 def show_events(request):
     search = request.GET.get('search', '')
@@ -49,8 +43,6 @@ def event_detail(request, id):
     
     context = {'event': event.first()}
     return render(request, "event_detail.html", context)
-    
-
 
 def create_event(request): 
     form = EventModelForm()
@@ -98,8 +90,6 @@ def delete_event(request, id):
     else:
         messages.success(request, 'Something went wrong')
         return redirect('organizer-dashboard')
-
-
 
 def organizer_dashboard(request):
     type = request.GET.get('type','all')
