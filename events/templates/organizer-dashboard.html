@@ -20,6 +20,7 @@
     </style>
   </head>
   <body class="bg-gray-50 p-6">
+    {% include "navbar.html" %}
     <div class="max-w-[1400px] mx-auto">
       <!-- Header  -->
       <header class="flex justify-between items-center mb-8">
@@ -80,7 +81,6 @@
             <div class="flex justify-between items-start">
               <div>
                 <p class="text-3xl font-semibold mb-1">{{ counts.total_events }}</p>
-                {% comment %} <a class="text-gray-500 text-sm" href="{% url 'organizer-dashboard' %}">Click here to see</a> {% endcomment %}
                 <a class="text-gray-500 text-sm {% if request.GET.type == 'total events' %}text-red-600{% endif %}" 
                 href="{% url 'organizer-dashboard' %}?type=total events">Click here to see</a>
               </div>
@@ -110,7 +110,6 @@
             <div class="flex justify-between items-start">
               <div>
                 <p class="text-3xl font-semibold mb-1">{{ counts.upcoming_events_count }}</p>
-                {% comment %} <a class="text-gray-500 text-sm" href="{% url 'organizer-dashboard' %}?type=upcoming events">Click here to see</a> {% endcomment %}
                 <a class="text-gray-500 text-sm {% if request.GET.type == 'upcoming events' %}text-red-600{% endif %}"
                 href="{% url 'organizer-dashboard' %}?type=upcoming events">Click here to see</a>
               </div>
@@ -138,7 +137,6 @@
             <div class="flex justify-between items-start">
               <div>
                 <p class="text-3xl font-semibold mb-1">{{ counts.past_events_count }}</p>
-                {% comment %} <a class="text-gray-500 text-sm" href="{% url 'organizer-dashboard' %}?type=past events">Click here to see</a> {% endcomment %}
                 <a class="text-gray-500 text-sm {% if request.GET.type == 'past events' %}text-red-600{% endif %}" 
                 href="{% url 'organizer-dashboard' %}?type=past events">Click here to see</a>
               </div>
@@ -157,8 +155,6 @@
                     d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                   />
                 </svg>
-
-                
               </div>
             </div>
           </div>
@@ -188,7 +184,7 @@
                 <td class="py-2">
                   <div class="flex items-center">
                     <span
-                      class="w-2 h-2 bg-green-500 rounded-full mr-2"
+                      class="w-2 h-2 bg-green-500 text-white rounded-full mr-2"
                     ></span>
                     <span>{{event}}</span>
                   </div>
@@ -200,7 +196,6 @@
               {% empty %}
                 <p>No events found for today.</p>
               {% endfor %}
-                
               </tbody>
             </table>
           </div>

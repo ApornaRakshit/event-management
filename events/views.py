@@ -1,3 +1,5 @@
+
+
 from django.shortcuts import render, redirect
 from django.db.models import Q, Count 
 from django.utils.timezone import now, localdate
@@ -5,6 +7,8 @@ from django.http import HttpResponse
 from events.forms import EventModelForm
 from events.models import Event, Participant, Category
 from django.contrib import messages
+
+
 
 def events_by_category(request):
     c_id = request.GET.get('category')
@@ -21,8 +25,22 @@ def events_by_category(request):
     context = {
         'events': events
         }
-
     return render(request, "home.html", context)
+
+
+
+def show_events(request):
+    search = request.GET.get('search', '')
+    # print(search)
+    events = Event.objects.select_related('category').prefetch_related('participants').annotate(participant_count=Count('participants'))
+
+    if search:
+        events = events.filter(title__icontains=search) | events.filter(location__icontains=search)
+    
+    context = {
+        'events': events, 'search': search
+        }
+    return render(request, "show_events.html", context)
 
 
 def event_detail(request, id):
@@ -33,8 +51,8 @@ def event_detail(request, id):
     return render(request, "event_detail.html", context)
     
 
-def create_event(request):
-   
+
+def create_event(request): 
     form = EventModelForm()
 
     if request.method == "POST":
@@ -53,6 +71,7 @@ def create_event(request):
     return render(request, "event_form.html", context)
 
 
+
 def update_event(request, id):
     event = Event.objects.get(id=id)
     form = EventModelForm(instance=event)
@@ -67,6 +86,8 @@ def update_event(request, id):
 
     context = {"form": form}
     return render(request, "event_form.html", context)
+
+
 
 def delete_event(request, id):
     if request.method =="POST":
@@ -99,10 +120,9 @@ def organizer_dashboard(request):
     elif type == 'past events':
         events = base_query.filter(date__lt=today)
     elif type == 'total events':
-        events = base_query.all()    
+        events = base_query.all()
     elif type == 'all_participants':
         events = all_participants
-
     
 
     counts = Event.objects.aggregate(
