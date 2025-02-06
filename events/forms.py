@@ -25,28 +25,23 @@ class StyledFormMixin:
                     'rows': 5
                 })
             elif isinstance(field.widget, forms.SelectDateWidget):
-                # print("Inside Date")
                 field.widget.attrs.update({
                     "class": "border-2 border-gray-300 p-3 rounded-lg shadow-sm focus:outline-none focus:border-rose-500 focus:ring-rose-500"
                 })
             elif isinstance(field.widget, forms.TimeInput):
-                # print("Inside Date")
                 field.widget.attrs.update({
                     "class": "border-2 border-gray-300 p-3 rounded-lg shadow-sm focus:outline-none focus:border-rose-500 focus:ring-rose-500"
                 })
             elif isinstance(field.widget, forms.Select):
-                # print("Inside checkbox")
                 field.widget.attrs.update({
                     'class': f"{self.default_classes} space-y-2 text-green",
                     'placeholder':  f"Select {field.label.lower()}",
                 })
             elif isinstance(field.widget, forms.CheckboxSelectMultiple):
-                # print("Inside checkbox")
                 field.widget.attrs.update({
                      'class': "space-y-2"
                 })
             else:
-                # print("Inside else")
                 field.widget.attrs.update({
                     'class': self.default_classes
                 })
@@ -56,11 +51,11 @@ class EventModelForm(StyledFormMixin, forms.ModelForm):
 
     participants = forms.ModelMultipleChoiceField(
         queryset=Participant.objects.all(),
-        widget=forms.CheckboxSelectMultiple
+        widget=forms.CheckboxSelectMultiple,
+        required = True
     )
     class Meta:
         model = Event
-        # fields = '__aLL__'
         fields = ['name', 'description', 'date', 'time', 'location', 'category', 'participants']
         
         widgets = {
