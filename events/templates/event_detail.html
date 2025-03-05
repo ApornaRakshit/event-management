@@ -8,13 +8,13 @@
 </head>
 <body>
     {% include "navbar.html" %}
-    <div class="bg-slate-400 text-white font-semibold mx-4 my-10 md:m-20 lg:mx-60 p-6 md:p-10 lg:p-44 shadow-md">
-        <div class="text-center">
-            <h2 class="text-xl font-bold"><span class="text-sky-800">Event Name: </span>{{ event.name }}</h2>
-            <p><span class="text-sky-800">Description: </span><br>{{ event.description }}</p>
-            <p><span class="text-sky-800">Category: </span>{{ event.category.name }}</p>
+    <div class="bg-teal-400 text-white font-semibold mx-4 my-10 md:m-20 lg:mx-60 p-6 md:p-10 lg:p-44 shadow-md">
+        <div class="">
+            <h2 class="text-xl font-bold"><span class="text-teal-800">Event Name: </span>{{ event.name }}</h2>
+            <p><span class="text-teal-800">Description: </span><br>{{ event.description }}</p>
+            <p><span class="text-teal-800">Category: </span>{{ event.category.name }}</p>
         
-            <p><span class="text-sky-700">Participants: </span>{% for p in event.participants.all %}
+            <p><span class="text-teal-700">Participants: </span>{% for p in event.participants.all %}
                                 <li>{{p.name}}</li>
                             {% endfor %}
             </p>
