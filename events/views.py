@@ -130,3 +130,4 @@ def organizer_dashboard(request):
         }
 
     return render(request, "organizer-dashboard.html", context)
+
