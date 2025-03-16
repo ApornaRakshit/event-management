@@ -1,5 +1,7 @@
 from django.db import models
 
+
+# Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
@@ -8,18 +10,15 @@ class Category(models.Model):
         return self.name
 
 class Event(models.Model):
-    name = models.CharField(max_length=250)
+    title = models.CharField(max_length=250)
     description = models.TextField()
     date = models.DateField()
     time = models.TimeField()
     location = models.CharField(max_length=250)
-    category = models.ForeignKey(
-        Category, 
-        on_delete=models.CASCADE, 
-        related_name="events")
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="events")
 
     def __str__(self):
-        return self.name
+        return self.title
 
 class Participant(models.Model):
     name = models.CharField(max_length=255)
@@ -28,11 +27,3 @@ class Participant(models.Model):
 
     def __str__(self):
         return self.name
-    
-class Project(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField(blank=True, null=True)
-    start_date = models.DateField()  
-
-    def __str__(self):
-        return self.name  

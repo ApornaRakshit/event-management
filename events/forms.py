@@ -1,5 +1,5 @@
 from django import forms
-from events.models import Event, Participant
+from events.models import Event, Participant, Category
 
 
 class StyledFormMixin:
@@ -52,13 +52,29 @@ class EventModelForm(StyledFormMixin, forms.ModelForm):
     participants = forms.ModelMultipleChoiceField(
         queryset=Participant.objects.all(),
         widget=forms.CheckboxSelectMultiple,
-        required = True
+        required=True
     )
     class Meta:
         model = Event
-        fields = ['name', 'description', 'date', 'time', 'location', 'category', 'participants']
+        # fields = '__aLL__'
+        fields = ['title', 'description', 'date', 'time', 'location', 'category', 'participants']
         
         widgets = {
             'date' : forms.SelectDateWidget, 
             'time': forms.TimeInput(attrs={'type': 'time'}), 
-            'category': forms.Select}
+            'category': forms.Select
+            }
+        
+
+
+class CategoryModelForm(StyledFormMixin, forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name', 'description']
+
+        
+class ParticipantModelForm(StyledFormMixin, forms.ModelForm):
+    class Meta:
+        model = Participant
+        fields = ['name', 'email']
+        
