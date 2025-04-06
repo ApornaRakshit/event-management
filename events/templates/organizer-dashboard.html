@@ -179,7 +179,7 @@
                 </tr>
               </thead>
               <tbody>
-              {% comment %} {% for event in todays_event %} {% endcomment %}
+              {% for event in todays_event %}
               <tr>
                 <td class="py-2">
                   <div class="flex items-center">
@@ -193,9 +193,9 @@
                 <td class="py-2 text-sm text-gray-500">{{event.time}}</td>
                 <td class="py-2 text-sm text-gray-500">{{event.location}}</td>
               </tr>
-              {% comment %} {% empty %} {% endcomment %}
+              {% empty %}
                 <p>No events found for today.</p>
-              {% comment %} {% endfor %} {% endcomment %}
+              {% endfor %}
               </tbody>
             </table>
           </div>
@@ -210,7 +210,7 @@
                 </tr>
               </thead>
               <tbody>
-                {% comment %} {% for event in events %} {% endcomment %}
+                {% for event in events %}
               <tr>
                 <td class="py-2">
                   <div class="flex items-center">
@@ -223,17 +223,17 @@
                 <td class="py-2 text-sm text-gray-500">{{event.date}}</td>
                 <td class="py-2 text-sm text-gray-500">{{event.location}}</td>
                 <td class="py-2">
-                  {% comment %} <a href='{% url "update-event" event.id %}' class="bg-blue-500 text-white px-2 py-1 rounded text-sm">Update</a> {% endcomment %}
+                  <a href='{% url "update-event" event.id %}' class="bg-blue-500 text-white px-2 py-1 rounded text-sm">Update</a>
                 </td>
                 <td class="py-2">
-                  {% comment %} <form action='{% url "delete-event" event.id %}' method="POST"> {% endcomment %}
+                  <form action='{% url "delete-event" event.id %}' method="POST">
                     {% csrf_token %}
                     <button type='submit' class=" text-white px-2 py-1 rounded text-sm bg-red-500">Delete</button>
                   </form>
                 </td>
                 
               </tr>
-                {% comment %} {% endfor %} {% endcomment %}
+                {% endfor %}
                 
               </tbody>
             </table>
