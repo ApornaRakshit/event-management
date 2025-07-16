@@ -6,7 +6,6 @@ from core.views import home
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('events', include('events.urls')),
     path('', include('events.urls')),
     path('', include('core.urls')),
     path('events/', include('events.urls')),
