@@ -14,7 +14,7 @@ def send_activation_email(sender, instance, created, **kwargs):
 
         subject = 'Activate Your Account'
         message = f'Hi {instance.username},\n\nPlease activate your account by clicking the link below:\n{
-            activation_url}\n\nThank You!'
+            activation_url}'
         recipient_list = [instance.email]
 
         try:
@@ -23,11 +23,3 @@ def send_activation_email(sender, instance, created, **kwargs):
         except Exception as e:
             print(f"Failed to send email to {instance.email}: {str(e)}")
 
-
-
-@receiver(post_save, sender=User)
-def assign_role(sender, instance, created, **kwargs):
-    if created:
-        user_group, created = Group.objects.get_or_create(name='User')
-        instance.groups.add(user_group)
-        instance.save()
