@@ -16,7 +16,7 @@ def notify_participants_on_event_creation(sender, instance, action, pk_set, **kw
         for user in assigned_participants:
             send_mail(
                 subject="RSVP Confirmation",
-                message=f"You have been assigned to the event: {instance.title}",
+                message=f"You have been assigned to the event: {instance.name}",
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[user.email],
                 fail_silently=False

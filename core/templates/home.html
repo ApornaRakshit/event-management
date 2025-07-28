@@ -22,6 +22,7 @@
   </div>
 </div>
 
+
 <!-- Event by Category -->
 <div id="category" class="bg-slate-50 px-3 py-12">
   <h2 class="text-3xl font-bold text-center text-amber-600 py-6">Event by Category</h2>
@@ -29,7 +30,7 @@
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
     <!-- WORKSHOP -->
     <a href="{% url 'events-by-category' %}?category=1" class="{% if request.GET.category == '1' %}border-b-2 border-blue-900{% else %}border-transparent{% endif %}">
-      <div class="bg-white rounded-xl p-6 shadow-lg flex justify-between items-center">
+      <div class="bg-white rounded-xl p-6 shadow-lg flex hover:shadow-amber-200 justify-between items-center">
         <h3 class="text-lg font-medium text-slate-800">WORKSHOP</h3>
         <div class="shadow-lg p-3 rounded-full">
           <svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" class="size-6 text-orange-600" viewBox="0 0 24 24">
@@ -41,7 +42,7 @@
 
     <!-- SEMINAR Events -->
     <a href="{% url 'events-by-category' %}?category=2" class="{% if request.GET.category == '2' %}border-b-2 border-blue-900{% else %}border-transparent{% endif %}">
-      <div class="bg-white rounded-xl p-6 shadow-lg flex justify-between items-center">
+      <div class="bg-white rounded-xl p-6 shadow-lg flex hover:shadow-amber-200 justify-between items-center">
         <h3 class="text-lg font-medium text-slate-800">SEMINAR EVENTS</h3>
         <div class="shadow-lg p-3 rounded-full">
           <svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" class="w-6 h-6 text-orange-500" viewBox="0 0 24 24">
@@ -53,7 +54,7 @@
 
     <!-- CONFERENCE -->
     <a href="{% url 'events-by-category' %}?category=3" class="{% if request.GET.category == '3' %}border-b-2 border-blue-900{% else %}border-transparent{% endif %}">
-      <div class="bg-white rounded-xl p-6 shadow-lg flex justify-between items-center">
+      <div class="bg-white rounded-xl p-6 shadow-lg flex hover:shadow-amber-200 justify-between items-center">
         <h3 class="text-lg font-medium text-slate-800">CONFERENCE</h3>
         <div class="shadow-lg p-3 rounded-full">
           <svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" class="size-6 text-orange-600" viewBox="0 0 24 24">
@@ -65,7 +66,7 @@
 
     <!-- HACKATHON -->
     <a href="{% url 'events-by-category' %}?category=4" class="{% if request.GET.category == '4' %}border-b-2 border-blue-900{% else %}border-transparent{% endif %}">
-      <div class="bg-white rounded-xl p-6 shadow-lg flex justify-between items-center">
+      <div class="bg-white rounded-xl p-6 shadow-lg flex hover:shadow-amber-200 justify-between items-center">
         <h3 class="text-lg font-medium text-slate-800">HACKATHON</h3>
         <div class="shadow-lg p-3 rounded-full">
           <svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" class="size-6 text-orange-600" viewBox="0 0 24 24">
@@ -77,7 +78,7 @@
 
     <!-- TRAINING -->
     <a href="{% url 'events-by-category' %}?category=5" class="{% if request.GET.category == '4' %}border-b-2 border-blue-900{% else %}border-transparent{% endif %}">
-      <div class="bg-white rounded-xl p-6 shadow-lg flex justify-between items-center">
+      <div class="bg-white rounded-xl p-6 shadow-lg flex hover:shadow-amber-200 justify-between items-center">
         <h3 class="text-lg font-medium text-slate-800">TRAINING</h3>
         <div class="shadow-lg p-3 rounded-full">
           <svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" class="size-6 text-orange-600" viewBox="0 0 24 24">
@@ -89,7 +90,7 @@
   </div>
 
   <!-- Date Filter Form -->
-  <form method="GET" class="flex justify-end mt-6 mx-10">
+  <form method="GET" class="flex justify-center mt-6 mx-10">
     <div class="flex flex-col md:flex-row gap-4 bg-white px-4 py-2 rounded-lg shadow-md">
       <div class="flex items-center">
         <label class="text-gray-700 font-medium mr-2" for="start_date">Start Date:</label>
@@ -103,18 +104,23 @@
     </div>
   </form>
 
-  <!-- Event Cards -->
-  {% for event in events %}
-  <div class="flex flex-col md:flex-row justify-between items-center rounded-lg shadow-lg border-2 border-slate-800 p-8 my-8 mx-4 md:mx-32">
-    <div>
-      <h4 class="text-xl text-slate-800 font-semibold">Event Title: {{ event.name }}</h4>
-      <p class="text-lg text-slate-800 my-2"><span class="font-semibold">Description:</span> {{ event.description }}</p>
-      <p><span class="font-semibold">Participants:</span> {{ event.participant_count }}</p>
-    </div>
-    <div class="mt-4 md:mt-0">
-      <a class="px-4 py-2 rounded-lg border-2 border-amber-600 hover:border-blue-950 shadow text-amber-600 hover:text-white font-bold hover:bg-amber-500" href="{% url 'event-detail' event.id %}">DETAILS</a>
-    </div>
-  </div>
+
+  
+
+
+   <!-- Event Cards -->
+   {% for event in events %}
+   <div class="flex flex-col md:flex-row justify-between items-center rounded-lg shadow-lg hover:shadow-amber-200 border-slate-800 p-8 my-8 mx-4 md:mx-32">
+     <div>
+       <h4 class="text-2xl text-slate-800 font-semibold">Event Title: {{ event.name }}</h4>
+       <p class="text-lg text-slate-800 my-2"><span class="font-semibold">Description:</span> {{ event.description }}</p>
+       <p><span class="font-semibold">Participants:</span> {{ event.participant_count }}</p>
+     </div>
+     <div class="mt-4 md:mt-0">
+       <a class="px-4 py-2 rounded-lg border-2 border-amber-600 hover:border-blue-950 shadow text-amber-600 hover:text-white font-bold hover:bg-amber-500" href="{% url 'event-detail' event.id %}">DETAILS</a>
+     </div>
+   </div>
+   
   {% empty %}
   <p class="text-center text-gray-500 font-medium py-8">No events found for your filter.</p>
   {% endfor %}
