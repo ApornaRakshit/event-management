@@ -42,6 +42,11 @@ class StyledFormMixin:
                 field.widget.attrs.update({
                      'class': "space-y-2"
                 })
+            elif isinstance(field.widget, forms.ClearableFileInput): 
+                field.widget.attrs.update({
+                'class': self.default_classes,
+                'placeholder': f"Select {field.label.lower()} image"
+                })    
             else:
                 field.widget.attrs.update({
                     'class': self.default_classes
@@ -70,4 +75,4 @@ class EventModelForm(StyledFormMixin, forms.ModelForm):
 class CategoryModelForm(StyledFormMixin, forms.ModelForm):
     class Meta:
         model = Category
-        fields = ['name', 'description']
+        fields = ['name', 'description', 'image']

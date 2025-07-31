@@ -4,6 +4,12 @@ from django.contrib.auth.models import User, Group
 from users.forms import CustomRegisterForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.core.mail import send_mail
+from django.utils.http import urlsafe_base64_decode
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_str, force_bytes
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
 from users.forms import LoginForm, AssignRoleForm, CreateGroupForm
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -15,7 +21,8 @@ from django.utils.timezone import now
 
 # Test for users
 def is_admin(user):
-    return user.groups.filter(name='Admin').exists()
+    return user.groups.filter(name='Admin').exists() or user.is_superuser
+
 
 
 def sign_up(request):
@@ -32,6 +39,24 @@ def sign_up(request):
 
             user_group = Group.objects.get(name='User')
             user.groups.add(user_group)
+
+            current_site = get_current_site(request)
+            subject = 'Activate Your Account'
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            token = default_token_generator.make_token(user)
+            activation_link = f"http://{current_site.domain}/activate/{uid}/{token}/"
+            message = render_to_string('users/activation_email.html', {
+                'user': user,
+                'activation_link': activation_link
+            })
+
+            send_mail(
+                subject,
+                message,
+                'noreply@evento.com',  # from email (update as needed)
+                [user.email],
+                fail_silently=False,
+            )
             
             messages.success(request, "A Confirmation mail sent. Please check your email")
             return redirect('sign-in')
@@ -57,18 +82,37 @@ def sign_out(request):
         return redirect('sign-in')
     
 
-def activate_user(request, user_id, token):
-    try:
-        user = User.objects.get(id=user_id)
-        if default_token_generator.check_token(user, token):
-            user.is_active = True
-            user.save()
-            return redirect('sign-in')
-        else:
-            return HttpResponse('Invalid Id or token')
+# def activate_user(request, user_id, token):
+#     try:
+#         user = User.objects.get(id=user_id)
+#         if default_token_generator.check_token(user, token):
+#             user.is_active = True
+#             user.save()
+#             return redirect('sign-in')
+#         else:
+#             return HttpResponse('Invalid Id or token')
 
-    except User.DoesNotExist:
-        return HttpResponse('User not found')
+#     except User.DoesNotExist:
+#         return HttpResponse('User not found')
+
+
+
+def activate_user(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        user.is_active = True
+        user.save()
+        messages.success(request, "Account activated successfully! You can now log in.")
+        return redirect('sign-in')
+    else:
+        return render(request, 'users/activation_failed.html')
+    
+
     
 
 @user_passes_test(is_admin, login_url='no-permission')

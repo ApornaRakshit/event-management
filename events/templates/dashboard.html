@@ -24,7 +24,7 @@
           {% comment %} Total PARTICIPANTS  {% endcomment %}
           {% if request.user.groups.all.0.name == 'Organizer' %}
         <a href="{% url dashboard_url %}?type=all participants">
-          <div class="bg-gray-100 rounded-xl p-3 lg:p-6 shadow-lg {% if request.GET.type == 'all participants' %}border-b-2 border-blue-900{% else %}border-transparent{% endif %}">
+          <div class="bg-gray-100 rounded-xl p-3 lg:p-6 shadow-lg hover:shadow-amber-200 {% if request.GET.type == 'all participants' %}border-b-2 border-blue-900{% else %}border-transparent{% endif %}">
             <h3 class="text-sm font-medium text-gray-500 mb-4">TOTAL PARTICIPANTS</h3>
             <div class="flex justify-between items-start">
               <div>
@@ -55,7 +55,7 @@
           {% comment %} PAST RSVP EVENTS  {% endcomment %}
           {% if request.user.groups.all.0.name == 'User' %}
           <a href="{% url dashboard_url %}?type=past rsvp events">
-          <div class="bg-gray-100 rounded-xl p-3 lg:p-6 shadow-lg {% if request.GET.type == 'past rsvp events' %}border-b-2 border-blue-900{% else %}border-transparent{% endif %}">
+          <div class="bg-gray-100 rounded-xl p-3 lg:p-6 shadow-lg hover:shadow-amber-200 {% if request.GET.type == 'past rsvp events' %}border-b-2 border-blue-900{% else %}border-transparent{% endif %}">
             <h3 class="text-sm font-medium text-gray-500 mb-4">PAST RSVP EVENTS</h3>
             <div class="flex justify-between items-start">
               <div>
@@ -84,7 +84,7 @@
           {% endif %}
           {% comment %} TOTAL EVENTS   {% endcomment %}
           <a href="{% url dashboard_url %}?type=total events">
-          <div class="bg-gray-100 rounded-xl p-3 lg:p-6 shadow-lg {% if request.GET.type == 'total events' %}border-b-2 border-blue-900{% else %}border-transparent{% endif %}">
+          <div class="bg-gray-100 rounded-xl p-3 lg:p-6 shadow-lg hover:shadow-amber-200 {% if request.GET.type == 'total events' %}border-b-2 border-blue-900{% else %}border-transparent{% endif %}">
             <h3 class="text-sm font-medium text-gray-500 mb-4">TOTAL EVENTS</h3>
             <div class="flex justify-between items-start">
                 <p class="text-3xl font-semibold mb-1">{{ counts.total_events }}</p>
@@ -109,7 +109,7 @@
         </a>
           {% comment %} UPCOMING EVENTS   {% endcomment %}
         <a href="{% url dashboard_url %}?type=upcoming events">
-          <div class="bg-gray-100 rounded-xl p-3 lg:p-6 shadow-lg {% if request.GET.type == 'upcoming events' %}border-b-2 border-blue-900{% else %}border-transparent{% endif %}">
+          <div class="bg-gray-100 rounded-xl p-3 lg:p-6 shadow-lg hover:shadow-amber-200 {% if request.GET.type == 'upcoming events' %}border-b-2 border-blue-900{% else %}border-transparent{% endif %}">
             <h3 class="text-sm font-medium text-gray-500 mb-4">
               UPCOMING EVENTS
             </h3>
@@ -138,7 +138,7 @@
         </a>
           {% comment %} PAST EVENTS   {% endcomment %}
         <a href="{% url dashboard_url %}?type=past events">
-          <div class="bg-gray-100 rounded-xl p-3 lg:p-6 shadow-lg {% if request.GET.type == 'past events' %}border-b-2 border-blue-900{% else %}border-transparent{% endif %}">
+          <div class="bg-gray-100 rounded-xl p-3 lg:p-6 shadow-lg hover:shadow-amber-200 {% if request.GET.type == 'past events' %}border-b-2 border-blue-900{% else %}border-transparent{% endif %}">
             <h3 class="text-sm font-medium text-gray-500 mb-4">PAST EVENTS</h3>
             <div class="flex justify-between items-start">
               <div>
