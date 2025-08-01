@@ -1,8 +1,8 @@
 from django.contrib import admin
-from events.models import Event, Category, Participant, Project
+from events.models import Event, Category
 
 # Register your models here.
 admin.site.register(Event)
 admin.site.register(Category)
-admin.site.register(Participant)
-admin.site.register(Project)
+# admin.site.register(Participant)
+

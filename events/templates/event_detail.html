@@ -1,29 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body>
-    {% include "navbar.html" %}
-    <div class="bg-teal-400 text-white font-semibold mx-4 my-10 md:m-20 lg:mx-60 p-6 md:p-10 lg:p-44 shadow-md">
-        <div class="">
-            <h2 class="text-xl font-bold"><span class="text-teal-800">Event Name: </span>{{ event.name }}</h2>
-            <p><span class="text-teal-800">Description: </span><br>{{ event.description }}</p>
-            <p><span class="text-teal-800">Category: </span>{{ event.category.name }}</p>
-        
-            <p><span class="text-teal-700">Participants: </span>{% for p in event.participants.all %}
-                                <li>{{p.name}}</li>
-                            {% endfor %}
-            </p>
-        </div>
-        <div class="text-teal-800 mt-5 flex flex-wrap gap-3">
-            <span class="bg-yellow-50 px-4 py-2 mx-1">Date: {{ event.date }}</span>
-            <span class="bg-yellow-50 px-4 py-2 mx-1">time: {{ event.time }}</span>
-            <span class="bg-yellow-50 px-4 py-2 mx-1">location: {{ event.location }}</span>
+{% extends "base.html" %}
+{% block content %}
+<div class="bg-slate-400 text-white font-semibold mx-4 my-10 md:m-20 lg:mx-60 p-6 md:p-10 shadow-md rounded-lg">
+  <div class="flex flex-col md:flex-col lg:flex-row gap-10 items-start">
+
+    <div class="flex-1">
+      <h2 class="mt-4 text-xl md:text-2xl lg:text-3xl font-bold">
+        <span class="text-amber-300">Event Title:</span> {{ event.name }}
+      </h2>
+      <p class="my-2 text-base md:text-lg"><span class="text-amber-300">Description:</span> {{ event.description }}</p>
+      <p class="my-2 text-lg"><span class="text-amber-300">Category:</span> {{ event.category.name }}</p>
+
+      <p class="my-2 text-lg"><span class="text-amber-300">Participants:</span></p>
+      <ul class="list-disc list-inside text-white">
+        {% for p in event.participants.all %}
+        <li>{{ p.first_name }}</li>
+        {% endfor %}
+      </ul>
+
+      <div class="text-teal-800 mt-5 flex flex-wrap gap-2 md:gap-3">
+        <span class="bg-white px-2 md:px-4 py-2 rounded">Date: {{ event.date }}</span>
+        <span class="bg-white px-2 md:px-4 py-2 rounded">Time: {{ event.time }}</span>
+        <span class="bg-white px-2 md:px-4 py-2 rounded">Location: {{ event.location }}</span>
+      </div>
+      <br>
+      {% if request.user.groups.all.0.name == 'Organizer' or request.user.groups.all.0.name == 'Admin' %}
+      <div class="text-teal-800 mt-5 flex flex-wrap gap-3">
+        <a href='{% url "update-event" event.id %}'
+          class="border border-blue-900 shadow text-blue-700 hover:text-white hover:bg-blue-800 px-4 py-2 rounded text-sm">UPDATE</a>
+        <form action='{% url "delete-event" event.id %}' method="POST">
+          {% csrf_token %}
+          <button type='submit'
+            class="border px-4 py-2 border-amber-600 shadow text-amber-700 hover:text-white hover:bg-amber-600 rounded text-sm">DELETE</button>
+        </form>
+      </div>
+      {% endif %}
+
+      {% if user.is_authenticated and request.user.groups.all.0.name == "User" %}
+      {% if user in event.participants.all %}
+      <p><span class="bg-green-500 mt-4 py-1 px-4">You have RSVP’d to this event.</span></p>
+      {% else %}
+      <form action="{% url 'rsvp-event' event.id %}" method="POST" class="mt-4">
+        {% csrf_token %}
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">RSVP event</button>
+      </form>
+      {% endif %}
+      {% endif %}
 
     </div>
-</body>
-</html>
+    <div class="w-full lg:w-1/2 rounded-lg shadow-lg p-2">
+      <img
+        src="{% if event.category.image %}{{ event.category.image.url }}{% else %}/media/event_asset/default_img.png{% endif %}"
+        alt="{{ event.category.name }} Preview" class="w-48 h-48 rounded-lg object-cover mt-4" />
+    </div>
+
+  </div>
+</div>
+
+{% endblock content %}

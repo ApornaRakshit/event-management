@@ -1,181 +1,20 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    {% comment %} <link rel="stylesheet" href="{% static 'css/output.css' %}"> {% endcomment %}
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Sans+Bengali:wght@100..900&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      body {
-        font-family: "Inter", sans-serif;
-      }
-    </style>
-  </head>
-  <body class="bg-gray-50 p-6">
-    {% include "navbar.html" %}
-    <div class="max-w-[1400px] mx-auto">
-      <!-- Header  -->
-      <header class="flex justify-between items-center mb-8">
-        <h1 class="text-2xl font-semibold">Dashboard</h1>
-        <div class="flex items-center gap-4">
-          <button class="p-2 rounded-full hover:bg-gray-100 relative">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="size-6"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
-              />
-            </svg>
-          </button>
-        </div>
-      </header>
+{% extends "dashboard.html" %}
 
-      <main>
-        <!-- Stats Grid  -->
-        <div class="grid grid-cols-4 gap-6 mb-8">
-          <!-- Total PARTICIPANTS  -->
-          <div class="bg-white rounded-xl p-6 shadow-sm">
-            <h3 class="text-sm font-medium text-gray-500 mb-4">TOTAL PARTICIPANTS</h3>
-            <div class="flex justify-between items-start">
-              <div>
-                <p class="text-3xl font-semibold mb-1">{{ all_participants_count }}</p>
-                <p class="text-gray-500 text-sm">Manage participants</p>
-              </div>
-              <div class="bg-purple-100 p-3 rounded-full">
-                <svg
-                 xmlns="http://www.w3.org/2000/svg" 
-                 fill="none" 
-                 viewBox="0 0 24 24" 
-                 stroke-width="1.5" 
-                 stroke="currentColor" 
-                 class="w-6 h-6 text-purple-600"
-                 >
-                    <path 
-                        stroke-linecap="round" 
-                        stroke-linejoin="round" 
-                        stroke-width="2"
-                        d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
-                  </svg>
-                  
-              </div>
-            </div>
-          </div>
-          <!-- TOTAL EVENTS  -->
-          <div class="bg-white rounded-xl p-6 shadow-sm">
-            <h3 class="text-sm font-medium text-gray-500 mb-4">TOTAL EVENTS</h3>
-            <div class="flex justify-between items-start">
-              <div>
-                <p class="text-3xl font-semibold mb-1">{{ counts.total_events }}</p>
-                <a class="text-gray-500 text-sm {% if request.GET.type == 'total events' %}text-red-600{% endif %}" 
-                href="{% url 'organizer-dashboard' %}?type=total events">Click here to see</a>
-              </div>
-              <div class="bg-blue-100 p-3 rounded-full">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  class="w-6 h-6 text-blue-600"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184"
-                  />
-                </svg>
-              </div>
-            </div>
-          </div>
-          <!-- UPCOMING EVENTS  -->
-          <div class="bg-white rounded-xl p-6 shadow-sm">
-            <h3 class="text-sm font-medium text-gray-500 mb-4">
-              UPCOMING EVENTS
-            </h3>
-            <div class="flex justify-between items-start">
-              <div>
-                <p class="text-3xl font-semibold mb-1">{{ counts.upcoming_events_count }}</p>
-                <a class="text-gray-500 text-sm {% if request.GET.type == 'upcoming events' %}text-red-600{% endif %}"
-                href="{% url 'organizer-dashboard' %}?type=upcoming events">Click here to see</a>
-              </div>
-              <div class="bg-yellow-100 p-3 rounded-full">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="2"
-                  stroke="currentColor"
-                  class="w-6 h-6 text-yellow-600"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                  />
-                </svg>
-              </div>
-            </div>
-          </div>
-          {% comment %} PAST EVENTS {% endcomment %}
-          <div class="bg-white rounded-xl p-6 shadow-sm">
-            <h3 class="text-sm font-medium text-gray-500 mb-4">PAST EVENTS</h3>
-            <div class="flex justify-between items-start">
-              <div>
-                <p class="text-3xl font-semibold mb-1">{{ counts.past_events_count }}</p>
-                <a class="text-gray-500 text-sm {% if request.GET.type == 'past events' %}text-red-600{% endif %}" 
-                href="{% url 'organizer-dashboard' %}?type=past events">Click here to see</a>
-              </div>
-              <div class="bg-green-100 p-3 rounded-full">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="2"
-                  stroke="currentColor"
-                  class="w-6 h-6 text-green-600"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                  />
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
-        {% if messages %}
-            {% for message in messages %}
-                <div class="px-2 py-1 {% if message.tags == 'success' %}bg-green-500{% endif %} ">{{message}}</div>
-            {% endfor %}
-        {% endif %}
-        <!-- Today's Events   -->
+{% block title %}Organizer Dashboard{% endblock title %}
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div class="bg-white p-6 rounded-lg shadow">
-            <h2 class="text-2xl font-bold mb-4">Today's Events</h2>
+      {% block specific %}
+      {% comment %} Today's Events {% endcomment %}
+          <div class="bg-slate-100 p-6 rounded-lg shadow-lg mb-8">
+            <h2 class="text-2xl text-center text-amber-600 font-bold mb-4">Today's Events</h2>
+            
+            {% if todays_event %}
             <table class="w-full">
               <thead>
                 <tr class="text-left text-gray-500">
                   <th class="pb-2">TITLE</th>
-                  <th class="pb-2">CATEGORY</th>
                   <th class="pb-2">TIME</th>
                   <th class="pb-2">LOCATION</th>
+                  <th class="hidden md:inline-block pb-2">CATEGORY</th>
                 </tr>
               </thead>
               <tbody>
@@ -184,62 +23,90 @@
                 <td class="py-2">
                   <div class="flex items-center">
                     <span
-                      class="w-2 h-2 bg-green-500 text-white rounded-full mr-2"
+                      class="w-2 h-2 bg-green-500 rounded-full mr-2"
                     ></span>
-                    <span>{{event}}</span>
+                    <a href="{% url 'event-detail' event.id %}"><span>{{event}}</span></a>
                   </div>
                 </td>
-                <td class="py-2 text-sm text-gray-500">{{event.category.name}}</td>
                 <td class="py-2 text-sm text-gray-500">{{event.time}}</td>
                 <td class="py-2 text-sm text-gray-500">{{event.location}}</td>
+                <td class="hidden md:inline-block py-2 text-sm text-gray-500">{{event.category.name}}</td>
               </tr>
-              {% empty %}
-                <p>No events found for today.</p>
               {% endfor %}
               </tbody>
             </table>
+  {% else %}
+    <div class="text-gray-500 text-center text-lg py-4 italic">No events found for today.</div>
+  {% endif %}
           </div>
-          <div class="bg-white p-6 rounded-lg shadow">
+      {% endblock specific %}
+
+
+  {% block dashboard %}
+
+          {% comment %} DYNAMIC EVENTS {% endcomment %}
+          <div class="bg-white border-2 border-sky-900 p-6 rounded-lg hover:shadow-amber-200 shadow">
             <h2 class="text-xl font-bold mb-4">{{type}}</h2>
             <table class="w-full">
               <thead>
+                {% if request.GET.type == 'all participants' %}
                 <tr class="text-left text-gray-500">
-                  <th class="pb-2">EVENT TITLE</th>
-                  <th class="pb-2">DATE</th>
-                  <th class="pb-2">LOCATION</th>
+                  <th class="pb-2">NAME</th>
+                  <th class="pb-2">Next RSVP'd Event</th>
                 </tr>
+                {% else %}
+                <tr class="text-left text-gray-500">
+                  <th class="pb-2">EVENT</th>
+                  <th class="pb-2">DATE</th>
+                  <th class="pb-2">PLACE</th>
+                  <th class="hidden md:inline-block pb-2">ACTION</th>
+                </tr>
+                {% endif %}
               </thead>
               <tbody>
+              {% if request.GET.type == 'all participants' %}
+                {% for p, event in participant_events %}
+              <tr>
+                <td class="py-2">
+                  <div class="flex items-center">
+                    <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                    <p class="text-stone-700 font-medium">{{p.first_name}} {{p.last_name}}</p>
+                  </div>
+                </td>
+                <td class="py-2">
+                    {% if event %}
+                    <p class="text-sky-800">{{ event.title }}</p>
+                    {% else %}
+                    <p class="text-gray-500 italic">No next event</p>
+                  {% endif %}
+                </td>
+              </tr>
+                {% endfor %}
+
+              {% else %}
                 {% for event in events %}
               <tr>
                 <td class="py-2">
                   <div class="flex items-center">
-                    <span
-                      class="w-2 h-2 bg-green-500 rounded-full mr-2"
-                    ></span>
-                    <span>{{event}}</span>
+                    <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                    <a class="text-stone-700 font-medium py-2" href="{% url 'event-detail' event.id %}"><span>{{event}}</span></a>
                   </div>
                 </td>
-                <td class="py-2 text-sm text-gray-500">{{event.date}}</td>
+                <td class="py-2 text-sm text-blue-800">{{event.date}}</td>
                 <td class="py-2 text-sm text-gray-500">{{event.location}}</td>
-                <td class="py-2">
-                  <a href='{% url "update-event" event.id %}' class="bg-blue-500 text-white px-2 py-1 rounded text-sm">Update</a>
+                <td class="hidden md:inline-block py-2 mr-1">
+                  <a href='{% url "update-event" event.id %}' class=" border border-blue-900 shadow text-blue-900 hover:text-white hover:bg-blue-900 px-2 py-1 rounded text-sm">Update</a>
                 </td>
-                <td class="py-2">
+                <td class="hidden md:inline-block py-2">
                   <form action='{% url "delete-event" event.id %}' method="POST">
                     {% csrf_token %}
-                    <button type='submit' class=" text-white px-2 py-1 rounded text-sm bg-red-500">Delete</button>
+                    <button type='submit' class="border border-amber-600 shadow text-amber-600 hover:text-white hover:bg-amber-600 px-2 py-1 rounded text-sm">Delete</button>
                   </form>
                 </td>
-                
               </tr>
                 {% endfor %}
-                
+               {% endif %} 
               </tbody>
             </table>
           </div>
-        </div>
-      </main>
-    </div>
-  </body>
-</html>
+    {% endblock dashboard %}

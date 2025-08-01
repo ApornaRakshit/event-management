@@ -1,0 +1,27 @@
+<!-- {% load static %}   -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Management</title>
+     <script src="https://cdn.tailwindcss.com"></script> 
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'css/output.css' %}"> -->
+</head>
+<body>
+  {% if request.user.is_authenticated %}
+        {% include "logged_nav.html" %}
+  {% else %}
+        {% include "non_logged_nav.html" %}
+  {% endif %}
+  
+      <main>
+        {% block content %}
+        
+        {% endblock content %}
+      </main>
+          
+</body>
+</html>

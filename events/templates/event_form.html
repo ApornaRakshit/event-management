@@ -1,30 +1,43 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    {% comment %} <link rel="stylesheet" href="{% static 'css/output.css' %}"> {% endcomment %}
-</head>
-<body>
-    {% include "navbar.html" %}
-    <div class="w-1/2 mx-auto mt-8">
+{% extends "base.html" %}
+{% block content %}
+<div class="w-3/4 md:w-1/2 lg:w-1/3 mx-auto mt-8">
     <div>
         {% if messages %}
-            {% for message in messages %}
-                <div class="px-2 py-1 {% if message.tags == 'success' %}bg-green-500{% endif %} ">
-                    {{message}}
-                </div>
-            {% endfor %}
+        {% for message in messages %}
+        <div class="px-2 py-1 {% if message.tags == 'success' %}bg-green-400 text-white font-medium{% endif %} ">
+            {{message}}</div>
+        {% endfor %}
+        {% endif %}
+
+        {% if event_form.non_field_errors %}
+        {% for error in event_form.non_field_errors %}
+        {{error}}
+        {% endfor %}
         {% endif %}
     </div>
-    
-    <form action="" method="POST">
+
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="mb-5 bg-sky-600 text-white font-semibold px-3 py-2 mt-2 rounded-md">Submit</button>
+
+        <h2 class="font-bold text-xl text-yellow-700 py-2">Create New Event</h2>
+        {% comment %} {{ event_form.as_p }} {% endcomment %}
+
+        {% for field in event_form %}
+        <div class="mb-4">
+            <label for="{{ field.id_for_label }}" class="block text-base md:text-lg font-semibold text-gray-700 mb-1">
+                {{ field.label }}{% if field.field.required %}<span class="text-red-500 ml-1">*</span>{% endif %}
+            </label>
+            {{ field }}
+            {% if field.errors %}
+            <p class="text-red-500 text-sm mt-1">{{ field.errors.0 }}</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        <button type="submit" name="create_event"
+            class="bg-yellow-600 font-semibold text-white px-6 py-2 my-4 rounded">Submit</button>
     </form>
-</body>
-</html>
+
+</div>
+
+{% endblock content %}
