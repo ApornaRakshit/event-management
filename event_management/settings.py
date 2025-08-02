@@ -88,24 +88,23 @@ WSGI_APPLICATION = 'event_management.wsgi.application'
 DATABASES = {
     'default': dj_database_url.config(
         # Replace this value with your local database's connection string.
-        default='postgresql://event_manager_db_xyl5_user:xrQhA4NLMej2CwhNPQJdqOBf6XorLLa9@dpg-cuhjph56l47c73ds52og-a.oregon-postgres.render.com/event_manager_db_xyl5',
-        conn_max_age=600,
-        ssl_require=True,
+        default='postgresql://event_manager_db_i8l9_user:7q8o85v25PbldYIOGrt1yJPcPDyXhLZj@dpg-d26ruffdiees73avdgdg-a.oregon-postgres.render.com/event_manager_db_i8l9',
+        conn_max_age=600
     )
 }
 
 # For Postgres
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME', default=''),
-        'USER': config('DB_USER', default=''),
-        'PASSWORD': config('DB_PASSWORD', default=''),
-        'HOST': config('DB_HOST', default=''),
-        'PORT': config('DB_PORT', cast=int)
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': config('DB_NAME', default=''),
+#         'USER': config('DB_USER', default=''),
+#         'PASSWORD': config('DB_PASSWORD', default=''),
+#         'HOST': config('DB_HOST', default=''),
+#         'PORT': config('DB_PORT', cast=int)
+#     }
+# }
 
 
 # Password validation
