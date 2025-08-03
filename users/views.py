@@ -15,6 +15,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Prefetch
 from events.models import Event
+from django.http import JsonResponse
 from django.utils.timezone import now
 
 # Create your views here.
@@ -25,26 +26,64 @@ def is_admin(user):
 
 
 
-def sign_up(request):
-    # if request.method == 'GET':
-    form = CustomRegisterForm()
+# def sign_up(request):
+#     # if request.method == 'GET':
+#     form = CustomRegisterForm()
 
+#     if request.method == 'POST':
+#         form = CustomRegisterForm(request.POST)
+#         if form.is_valid():
+#             user = form.save(commit=False)
+#             user.set_password(form.cleaned_data.get('password'))
+#             user.is_active = False
+#             user.save()
+
+#             user_group = Group.objects.get(name='User')
+#             user.groups.add(user_group)
+
+#             current_site = get_current_site(request)
+#             subject = 'Activate Your Account'
+#             uid = urlsafe_base64_encode(force_bytes(user.pk))
+#             token = default_token_generator.make_token(user)
+#             activation_link = f"http://{current_site.domain}/activate/{uid}/{token}/"
+#             message = render_to_string('users/activation_email.html', {
+#                 'user': user,
+#                 'activation_link': activation_link
+#             })
+
+#             send_mail(
+#                 subject,
+#                 message,
+#                 'noreply@evento.com',  # from email (update as needed)
+#                 [user.email],
+#                 fail_silently=False,
+#             )
+            
+#             messages.success(request, "A Confirmation mail sent. Please check your email")
+#             return redirect('sign-in')
+#     return render(request, 'registration/register.html', {"form" : form})
+
+def sign_up(request):
+    form = CustomRegisterForm()
     if request.method == 'POST':
         form = CustomRegisterForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
             user.set_password(form.cleaned_data.get('password'))
-            user.is_active = False
+            user.is_active = False  # 🚫 deactivate until email confirmation
             user.save()
 
+            # Add to 'User' group
             user_group = Group.objects.get(name='User')
             user.groups.add(user_group)
 
+            # Prepare activation email
             current_site = get_current_site(request)
-            subject = 'Activate Your Account'
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             token = default_token_generator.make_token(user)
             activation_link = f"http://{current_site.domain}/activate/{uid}/{token}/"
+
+            subject = 'Activate Your Account'
             message = render_to_string('users/activation_email.html', {
                 'user': user,
                 'activation_link': activation_link
@@ -53,16 +92,14 @@ def sign_up(request):
             send_mail(
                 subject,
                 message,
-                'noreply@evento.com',  # from email (update as needed)
+                'noreply@evento.com',
                 [user.email],
                 fail_silently=False,
             )
-            
-            messages.success(request, "A Confirmation mail sent. Please check your email")
+
+            messages.success(request, "A confirmation email has been sent. Please check your inbox.")
             return redirect('sign-in')
-    return render(request, 'registration/register.html', {"form" : form})
-
-
+    return render(request, 'registration/register.html', {"form": form})
 
 def sign_in(request):
     form = LoginForm()
@@ -97,6 +134,21 @@ def sign_out(request):
 
 
 
+# def activate_user(request, uidb64, token):
+#     try:
+#         uid = force_str(urlsafe_base64_decode(uidb64))
+#         user = User.objects.get(pk=uid)
+#     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+#         user = None
+
+#     if user is not None and default_token_generator.check_token(user, token):
+#         user.is_active = True
+#         user.save()
+#         messages.success(request, "Account activated successfully! You can now log in.")
+#         return redirect('sign-in')
+#     else:
+#         return render(request, 'users/activation_failed.html')
+    
 def activate_user(request, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
@@ -104,15 +156,13 @@ def activate_user(request, uidb64, token):
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
 
-    if user is not None and default_token_generator.check_token(user, token):
+    if user and default_token_generator.check_token(user, token):
         user.is_active = True
         user.save()
         messages.success(request, "Account activated successfully! You can now log in.")
         return redirect('sign-in')
     else:
-        return render(request, 'users/activation_failed.html')
-    
-
+        return render(request, 'users/activation_failed.html')  # Optional template
     
 
 @user_passes_test(is_admin, login_url='no-permission')

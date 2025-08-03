@@ -6,7 +6,7 @@ urlpatterns = [
     path('sign-in/', sign_in, name="sign-in"),
     path('sign-out/', sign_out, name="sign-out"),
     # path('activate/<int:user_id>/<str:token>/', activate_user),
-    path('activate/<uidb64>/<token>/', activate_user, name="activate"),
+    path('activate/<uidb64>/<token>/', activate_user, name='activate'),
     path('admin/dashboard/', admin_dashboard, name='admin-dashboard'),
     path('admin/<int:user_id>/assign-role/', assign_role, name='assign-role'),
     path('admin/create-group/', create_group, name='create-group'),
