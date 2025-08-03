@@ -147,7 +147,7 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
 
-FRONTEND_URL = "http://localhost:3000" 
+FRONTEND_URL = "https://event-management-cnza.onrender.com/" 
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
