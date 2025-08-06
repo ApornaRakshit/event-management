@@ -11,6 +11,15 @@ from django.db.models import Prefetch
 from events.models import Event
 from django.utils.timezone import now
 
+# --- NEW IMPORTS ADDED HERE ---
+from django.template.loader import render_to_string
+from django.core.mail import EmailMessage
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.urls import reverse
+# -----------------------------
+
 # Create your views here.
 
 # Test for users
@@ -19,9 +28,7 @@ def is_admin(user):
 
 
 def sign_up(request):
-    # if request.method == 'GET':
     form = CustomRegisterForm()
-
     if request.method == 'POST':
         form = CustomRegisterForm(request.POST)
         if form.is_valid():
@@ -33,10 +40,22 @@ def sign_up(request):
             user_group = Group.objects.get(name='User')
             user.groups.add(user_group)
             
+            # --- CODE TO SEND ACTIVATION EMAIL IS ADDED HERE ---
+            current_site = get_current_site(request)
+            subject = 'Activate Your Account'
+            message = render_to_string('registration/activation_email.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': default_token_generator.make_token(user),
+            })
+            email = EmailMessage(subject, message, to=[user.email])
+            email.send()
+            # ----------------------------------------------------
+            
             messages.success(request, "A Confirmation mail sent. Please check your email")
             return redirect('sign-in')
     return render(request, 'registration/register.html', {"form" : form})
-
 
 
 def sign_in(request):
@@ -57,17 +76,22 @@ def sign_out(request):
         return redirect('sign-in')
     
 
-def activate_user(request, user_id, token):
+def activate_user(request, uidb64, token):
     try:
-        user = User.objects.get(id=user_id)
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(id=uid)
+        
         if default_token_generator.check_token(user, token):
             user.is_active = True
             user.save()
+            messages.success(request, 'Your account has been activated! You can now log in.')
             return redirect('sign-in')
         else:
+            messages.error(request, 'Invalid activation link or token.')
             return HttpResponse('Invalid Id or token')
 
-    except User.DoesNotExist:
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        messages.error(request, 'Invalid activation link.')
         return HttpResponse('User not found')
     
 
@@ -104,7 +128,7 @@ def assign_role(request, user_id):
         form = AssignRoleForm(request.POST)
         if form.is_valid():
             role = form.cleaned_data.get('role')
-            user.groups.clear()   
+            user.groups.clear()  
             user.groups.add(role)
             messages.success(request, f"User {user.username} has been assigned to the {role.name} role")
             return redirect('admin-dashboard')
