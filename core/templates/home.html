@@ -34,11 +34,11 @@
   <h2 class="text-3xl font-bold text-center text-amber-600 py-6">Event by Category</h2>
 
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-    <!-- WORKSHOP -->
+    <!-- Hackathon -->
     <a href="{% url 'events-by-category' %}?category=1"
       class="{% if request.GET.category == '1' %}border-b-2 border-blue-900{% else %}border-transparent{% endif %}">
       <div class="bg-white rounded-xl p-6 shadow-lg flex hover:shadow-amber-200 justify-between items-center">
-        <h3 class="text-lg font-medium text-slate-800">WORKSHOP</h3>
+        <h3 class="text-lg font-medium text-slate-800">Hackathon</h3>
         <div class="shadow-lg p-3 rounded-full">
           <svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" class="size-6 text-orange-600"
             viewBox="0 0 24 24">
@@ -79,11 +79,11 @@
       </div>
     </a>
 
-    <!-- HACKATHON -->
+    <!-- Seminar -->
     <a href="{% url 'events-by-category' %}?category=4"
       class="{% if request.GET.category == '4' %}border-b-2 border-blue-900{% else %}border-transparent{% endif %}">
       <div class="bg-white rounded-xl p-6 shadow-lg flex hover:shadow-amber-200 justify-between items-center">
-        <h3 class="text-lg font-medium text-slate-800">HACKATHON</h3>
+        <h3 class="text-lg font-medium text-slate-800">Seminar</h3>
         <div class="shadow-lg p-3 rounded-full">
           <svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" class="size-6 text-orange-600"
             viewBox="0 0 24 24">
